@@ -14,7 +14,7 @@ AGeoPlayerPawn::AGeoPlayerPawn(const FObjectInitializer& ObjectInitializer)
 
     // Root component reacts to physics
     UBoxComponent *CollisionComponent = ObjectInitializer.CreateDefaultSubobject<UBoxComponent>(this, TEXT("RootComponent"));
-    CollisionComponent->InitBoxExtent(FVector(100.0f, 100.0f, 100.0f));
+    CollisionComponent->InitBoxExtent(FVector(50.0f, 50.0f, 50.0f));
     CollisionComponent->SetCollisionProfileName("Pawn");
     RootComponent = CollisionComponent;
 
