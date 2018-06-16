@@ -15,8 +15,18 @@ AGeoEnemyPawn::AGeoEnemyPawn(const FObjectInitializer& ObjectInitializer)
     USphereComponent *CollisionComponent = ObjectInitializer.CreateDefaultSubobject<USphereComponent>(this, TEXT("RootComponent"));
     CollisionComponent->InitSphereRadius(50.0f);
     CollisionComponent->SetCollisionProfileName("Enemy");
+    CollisionComponent->SetNotifyRigidBodyCollision(true);
+    CollisionComponent->OnComponentHit.AddDynamic(this, &AGeoEnemyPawn::OnHit);
     RootComponent = CollisionComponent;
 
+    // Create the visual component
+    UStaticMeshComponent *VisualComponent = ObjectInitializer.CreateDefaultSubobject<UStaticMeshComponent>(this, TEXT("VisualComponent"));
+    VisualComponent->SetupAttachment(RootComponent);
+    static ConstructorHelpers::FObjectFinder<UStaticMesh> EnemyVisualAsset(TEXT("StaticMesh'/Game/Meshes/SM_Enemy_Cone.SM_Enemy_Cone'"));
+    if (EnemyVisualAsset.Succeeded())
+    {
+        VisualComponent->SetStaticMesh(EnemyVisualAsset.Object);
+    }
 
     InitialLifeSpan = 2.0f;
 }
@@ -40,6 +50,13 @@ void AGeoEnemyPawn::Tick(float DeltaTime)
 void AGeoEnemyPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
     Super::SetupPlayerInputComponent(PlayerInputComponent);
-
 }
 
+void AGeoEnemyPawn::OnHit(UPrimitiveComponent * HitComponent, AActor * OtherActor, UPrimitiveComponent * OtherComp, FVector NormalImpulse, const FHitResult & Hit)
+{
+    if (OtherActor && OtherActor != this && OtherComp)
+    {
+        UWorld *World = GetWorld();
+        World->DestroyActor(this);
+    }
+}

@@ -26,7 +26,7 @@ public:
 
     // Horizontal extent of the spawner in the world
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = Size)
-    float SpawnerExtent = 1900.0f;
+    float SpawnerExtent = 950.0f;
     
     // Spawn interval in seconds initial value
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = Gameplay)
@@ -41,7 +41,7 @@ public:
     //float SpawnIntervalDecreaseValue = 0.1f;
 
     // Spawn interval in seconds
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+    UPROPERTY(EditInstanceOnly, BlueprintReadWrite, Category = Gameplay)
     float SpawnInterval;
 
     UFUNCTION()

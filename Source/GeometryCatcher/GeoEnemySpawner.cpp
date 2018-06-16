@@ -12,8 +12,6 @@ AGeoEnemySpawner::AGeoEnemySpawner(const FObjectInitializer& ObjectInitializer)
     // Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
     PrimaryActorTick.bCanEverTick = true;
 
-    SpawnInterval = InitialSpawnInterval;
-    
     // TODO: Later use GenerateRandomSeed
     EnemyLocationRandomStream.Initialize(999);
 
@@ -29,19 +27,15 @@ void AGeoEnemySpawner::BeginPlay()
 {
     Super::BeginPlay();
     
+    SpawnInterval = InitialSpawnInterval;
 }
 
 void AGeoEnemySpawner::SpawnEnemy()
 {
-    if (GEngine)
-    {
-        GEngine->AddOnScreenDebugMessage(-1, 0.5f, FColor::Red, TEXT("Spawned!"));
-    }
-
     UWorld *World = GetWorld();
     
-    // Choose a random location to spawn in
-    const float SpawnLocationY = EnemyLocationRandomStream.FRandRange(0, SpawnerExtent);
+    // Choose a random location to spawn within the horizontal extent
+    const float SpawnLocationY = EnemyLocationRandomStream.FRandRange(GetActorLocation().Y - SpawnerExtent, GetActorLocation().Y + SpawnerExtent);
     const FVector SpawnLocation(0.0f, SpawnLocationY, GetActorLocation().Z);
     
     AGeoEnemyPawn* const Enemy = World->SpawnActor<AGeoEnemyPawn>(EnemyClass, SpawnLocation, FRotator::ZeroRotator);
