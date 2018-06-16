@@ -1,9 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "GeoPlayerPawn.h"
-#include <Engine.h>
+#include "Engine.h"
 #include "GeoMovementComponent.h"
-#include <ConstructorHelpers.h>
+#include "ConstructorHelpers.h"
 
 // Sets default values
 AGeoPlayerPawn::AGeoPlayerPawn(const FObjectInitializer& ObjectInitializer)
@@ -15,7 +15,6 @@ AGeoPlayerPawn::AGeoPlayerPawn(const FObjectInitializer& ObjectInitializer)
     // Root component reacts to physics
     UBoxComponent *CollisionComponent = ObjectInitializer.CreateDefaultSubobject<UBoxComponent>(this, TEXT("RootComponent"));
     CollisionComponent->InitBoxExtent(FVector(50.0f, 50.0f, 50.0f));
-    CollisionComponent->SetCollisionProfileName("Pawn");
     RootComponent = CollisionComponent;
 
     // Create the visual component

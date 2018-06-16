@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "RandomStream.h"
 #include "GeoEnemySpawner.generated.h"
 
 UCLASS()
@@ -23,9 +24,9 @@ public:
     // Called every frame
     virtual void Tick(float DeltaTime) override;
 
-    // Width of the spawner in the world
+    // Horizontal extent of the spawner in the world
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = Size)
-    float WorldWidth = 1920;
+    float SpawnerExtent = 1900.0f;
     
     // Spawn interval in seconds initial value
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = Gameplay)
@@ -49,4 +50,9 @@ public:
 private:
     // Determine when to spawn the next enemy
     float TimeToSpawn = 0.0f;
+
+    // Randomly choose where the next enemy spawns
+    FRandomStream EnemyLocationRandomStream;
+
+    TSubclassOf<class AGeoEnemyPawn> EnemyClass;
 };
