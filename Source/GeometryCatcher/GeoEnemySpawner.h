@@ -7,6 +7,24 @@
 #include "RandomStream.h"
 #include "GeoEnemySpawner.generated.h"
 
+USTRUCT()
+struct FMaterialWrapper
+{
+    GENERATED_BODY()
+
+public:
+    UPROPERTY(EditDefaultsOnly, Category = Rendering)
+    class UMaterialInstance *Material;
+
+    // For garbage collector
+    void Destroy()
+    {
+        Material = nullptr;
+    }
+
+    FMaterialWrapper() : Material(nullptr) {}
+};
+
 UCLASS()
 class GEOMETRYCATCHER_API AGeoEnemySpawner : public AActor
 {
@@ -47,6 +65,10 @@ public:
     UFUNCTION()
     void SpawnEnemy();
 
+    // Materials for spawned enemies are randomly selected from this list
+    UPROPERTY(EditDefaultsOnly, Category = Rendering)
+    TArray<FMaterialWrapper> Materials;
+
 private:
     // Determine when to spawn the next enemy
     float TimeToSpawn = 0.0f;
@@ -54,5 +76,9 @@ private:
     // Randomly choose where the next enemy spawns
     FRandomStream EnemyLocationRandomStream;
 
+    // Randomly choose the material of the next enemy
+    FRandomStream EnemyMaterialRandomStream;
+
     TSubclassOf<class AGeoEnemyPawn> EnemyClass;
+
 };

@@ -20,7 +20,7 @@ AGeoEnemyPawn::AGeoEnemyPawn(const FObjectInitializer& ObjectInitializer)
     RootComponent = CollisionComponent;
 
     // Create the visual component
-    UStaticMeshComponent *VisualComponent = ObjectInitializer.CreateDefaultSubobject<UStaticMeshComponent>(this, TEXT("VisualComponent"));
+    VisualComponent = ObjectInitializer.CreateDefaultSubobject<UStaticMeshComponent>(this, TEXT("VisualComponent"));
     VisualComponent->SetupAttachment(RootComponent);
     static ConstructorHelpers::FObjectFinder<UStaticMesh> EnemyVisualAsset(TEXT("StaticMesh'/Game/Meshes/SM_Enemy_Cone.SM_Enemy_Cone'"));
     if (EnemyVisualAsset.Succeeded())
@@ -35,6 +35,7 @@ AGeoEnemyPawn::AGeoEnemyPawn(const FObjectInitializer& ObjectInitializer)
 void AGeoEnemyPawn::BeginPlay()
 {
     Super::BeginPlay();
+
     
 }
 
@@ -59,4 +60,10 @@ void AGeoEnemyPawn::OnHit(UPrimitiveComponent * HitComponent, AActor * OtherActo
         UWorld *World = GetWorld();
         World->DestroyActor(this);
     }
+}
+
+void AGeoEnemyPawn::SetEnemyMaterial(class UMaterialInstance *Material)
+{
+    this->MaterialInstance = Material;
+    VisualComponent->SetMaterial(0, MaterialInstance);
 }

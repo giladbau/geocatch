@@ -25,7 +25,15 @@ public:
 
     // Called to bind functionality to input
     virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-   
+
+    void SetEnemyMaterial(class UMaterialInstance *Material);
+
     UFUNCTION()
     void OnHit(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+
+    UPROPERTY()
+    UStaticMeshComponent *VisualComponent;
+
+private:
+    class UMaterialInstance *MaterialInstance;
 };

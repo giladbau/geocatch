@@ -12,8 +12,8 @@ AGeoEnemySpawner::AGeoEnemySpawner(const FObjectInitializer& ObjectInitializer)
     // Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
     PrimaryActorTick.bCanEverTick = true;
 
-    // TODO: Later use GenerateRandomSeed
-    EnemyLocationRandomStream.Initialize(999);
+    EnemyLocationRandomStream.GenerateNewSeed();
+    EnemyMaterialRandomStream.GenerateNewSeed();
 
     static ConstructorHelpers::FObjectFinder<UBlueprint> EnemyBlueprint(TEXT("Blueprint'/Game/Blueprints/BP_Enemy.BP_Enemy'"));
     if (EnemyBlueprint.Succeeded())
@@ -39,6 +39,11 @@ void AGeoEnemySpawner::SpawnEnemy()
     const FVector SpawnLocation(0.0f, SpawnLocationY, GetActorLocation().Z);
     
     AGeoEnemyPawn* const Enemy = World->SpawnActor<AGeoEnemyPawn>(EnemyClass, SpawnLocation, FRotator::ZeroRotator);
+    if (Materials.Num() > 0)
+    {
+        int32 RandomMaterialIndex = EnemyMaterialRandomStream.RandRange(0, Materials.Num() - 1);
+        Enemy->SetEnemyMaterial(Materials[RandomMaterialIndex].Material);
+    }
 }
 
 // Called every frame
