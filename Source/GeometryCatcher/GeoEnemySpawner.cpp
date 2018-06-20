@@ -13,6 +13,7 @@ AGeoEnemySpawner::AGeoEnemySpawner(const FObjectInitializer& ObjectInitializer)
     PrimaryActorTick.bCanEverTick = true;
 
     EnemyLocationRandomStream.GenerateNewSeed();
+    EnemyMeshRandomStream.GenerateNewSeed();
     EnemyMaterialRandomStream.GenerateNewSeed();
 
     static ConstructorHelpers::FObjectFinder<UBlueprint> EnemyBlueprint(TEXT("Blueprint'/Game/Blueprints/BP_Enemy.BP_Enemy'"));
@@ -39,6 +40,13 @@ void AGeoEnemySpawner::SpawnEnemy()
     const FVector SpawnLocation(0.0f, SpawnLocationY, GetActorLocation().Z);
     
     AGeoEnemyPawn* const Enemy = World->SpawnActor<AGeoEnemyPawn>(EnemyClass, SpawnLocation, FRotator::ZeroRotator);
+    
+    if (Meshes.Num() > 0)
+    {
+        int32 RandomMeshIndex = EnemyMeshRandomStream.RandRange(0, Meshes.Num() - 1);
+        Enemy->SetEnemyMesh(Meshes[RandomMeshIndex].StaticMesh);
+    }
+    
     if (Materials.Num() > 0)
     {
         int32 RandomMaterialIndex = EnemyMaterialRandomStream.RandRange(0, Materials.Num() - 1);

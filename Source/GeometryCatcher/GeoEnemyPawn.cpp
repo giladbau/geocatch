@@ -22,11 +22,11 @@ AGeoEnemyPawn::AGeoEnemyPawn(const FObjectInitializer& ObjectInitializer)
     // Create the visual component
     VisualComponent = ObjectInitializer.CreateDefaultSubobject<UStaticMeshComponent>(this, TEXT("VisualComponent"));
     VisualComponent->SetupAttachment(RootComponent);
-    static ConstructorHelpers::FObjectFinder<UStaticMesh> EnemyVisualAsset(TEXT("StaticMesh'/Game/Meshes/SM_Enemy_Cone.SM_Enemy_Cone'"));
-    if (EnemyVisualAsset.Succeeded())
-    {
-        VisualComponent->SetStaticMesh(EnemyVisualAsset.Object);
-    }
+    //static ConstructorHelpers::FObjectFinder<UStaticMesh> EnemyVisualAsset(TEXT("StaticMesh'/Game/Meshes/SM_Enemy_Cone.SM_Enemy_Cone'"));
+    //if (EnemyVisualAsset.Succeeded())
+    //{
+    //    VisualComponent->SetStaticMesh(EnemyVisualAsset.Object);
+    //}
 
     InitialLifeSpan = 2.0f;
 }
@@ -60,6 +60,12 @@ void AGeoEnemyPawn::OnHit(UPrimitiveComponent * HitComponent, AActor * OtherActo
         UWorld *World = GetWorld();
         World->DestroyActor(this);
     }
+}
+
+void AGeoEnemyPawn::SetEnemyMesh(class UStaticMesh *Mesh)
+{
+    this->Mesh = Mesh;
+    VisualComponent->SetStaticMesh(Mesh);
 }
 
 void AGeoEnemyPawn::SetEnemyMaterial(class UMaterialInstance *Material)

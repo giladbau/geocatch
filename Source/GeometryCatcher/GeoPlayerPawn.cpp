@@ -35,9 +35,9 @@ AGeoPlayerPawn::AGeoPlayerPawn(const FObjectInitializer& ObjectInitializer)
     CameraComponent = ObjectInitializer.CreateDefaultSubobject<UCameraComponent>(this, TEXT("CameraComponent"));
     CameraComponent->SetProjectionMode(ECameraProjectionMode::Orthographic);
     CameraComponent->bConstrainAspectRatio = true;
-    CameraComponent->SetAspectRatio(1920.0f / 1080.0f);
-    CameraComponent->SetOrthoWidth(1920.0f);
-    CameraComponent->SetWorldLocation(FVector(-500.0f, 960.0f, 540.0f));
+    CameraComponent->SetAspectRatio(CameraWidth / CameraHeight);
+    CameraComponent->SetOrthoWidth(CameraWidth);
+    CameraComponent->SetWorldLocation(FVector(-500.0f, CameraWidth / 2.0f, CameraHeight / 2.0f));
 }
 
 // Called when the game starts or when spawned

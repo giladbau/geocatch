@@ -25,6 +25,24 @@ public:
     FMaterialWrapper() : Material(nullptr) {}
 };
 
+USTRUCT()
+struct FMeshWrapper
+{
+    GENERATED_BODY()
+
+public:
+    UPROPERTY(EditDefaultsOnly, Category = Rendering)
+    class UStaticMesh *StaticMesh;
+
+    // For garbage collector
+    void Destroy()
+    {
+        StaticMesh = nullptr;
+    }
+
+    FMeshWrapper() : StaticMesh(nullptr) {}
+};
+
 UCLASS()
 class GEOMETRYCATCHER_API AGeoEnemySpawner : public AActor
 {
@@ -44,7 +62,7 @@ public:
 
     // Horizontal extent of the spawner in the world
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = Size)
-    float SpawnerExtent = 950.0f;
+    float SpawnerExtent = 900.0f;
     
     // Spawn interval in seconds initial value
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = Gameplay)
@@ -69,12 +87,19 @@ public:
     UPROPERTY(EditDefaultsOnly, Category = Rendering)
     TArray<FMaterialWrapper> Materials;
 
+    // Mesh for spawned enemies are randomly selected from this list
+    UPROPERTY(EditDefaultsOnly, Category = Rendering)
+    TArray<FMeshWrapper> Meshes;
+
 private:
     // Determine when to spawn the next enemy
     float TimeToSpawn = 0.0f;
 
     // Randomly choose where the next enemy spawns
     FRandomStream EnemyLocationRandomStream;
+
+    // Randomly choose the mesh of the next enemy
+    FRandomStream EnemyMeshRandomStream;
 
     // Randomly choose the material of the next enemy
     FRandomStream EnemyMaterialRandomStream;

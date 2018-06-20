@@ -26,6 +26,7 @@ public:
     // Called to bind functionality to input
     virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+    void SetEnemyMesh(class UStaticMesh *Mesh);
     void SetEnemyMaterial(class UMaterialInstance *Material);
 
     UFUNCTION()
@@ -35,5 +36,6 @@ public:
     UStaticMeshComponent *VisualComponent;
 
 private:
+    class UStaticMesh       *Mesh;
     class UMaterialInstance *MaterialInstance;
 };

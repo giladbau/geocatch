@@ -18,7 +18,14 @@ AGeoGameMode::AGeoGameMode(const FObjectInitializer& ObjectInitializer)
     if (PlayerControllerBP.Succeeded())
     {
         PlayerControllerClass = PlayerControllerBP.Class;
-    }    
+    }
+
+    static ConstructorHelpers::FClassFinder<AHUD> PlayerHUDBP(TEXT("AHUD'/Game/Blueprints/BP_HUD.BP_HUD_C'"));
+
+    if (PlayerHUDBP.Succeeded())
+    {
+        HUDClass = PlayerHUDBP.Class;
+    }
 }
 
 void AGeoGameMode::StartPlay()
@@ -29,6 +36,8 @@ void AGeoGameMode::StartPlay()
     {
         GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Emerald, TEXT("Gentlemen, start your catching!"));
     }
+
+    //WidgetBlueprint'/Game/UI/BP_HUD_Widget.BP_HUD_Widget'
 }
 
 

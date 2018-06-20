@@ -31,9 +31,18 @@ public:
     UFUNCTION()
     void MouseMoveH(float Delta);
 
+    // Camera viewport width
+    UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = Camera)
+    float CameraWidth = 1920.0f;
+
+    // Camera viewport height
+    UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = Camera)
+    float CameraHeight = 1080.0f;
+
 protected:
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess = true), Category = Movement)
     class UGeoMovementComponent *MovementComponent;
 
     class UCameraComponent *CameraComponent;
+
 };
