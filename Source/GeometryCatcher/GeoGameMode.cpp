@@ -48,5 +48,5 @@ void AGeoGameMode::OnEnemySpawned(AGeoEnemyPawn *Enemy)
 void AGeoGameMode::OnEnemyHitPlayer(AGeoEnemyPawn *Enemy)
 {
     HitCount++;
-    //IncrementKillPoints();
+    IncrementKillPoints();
 }

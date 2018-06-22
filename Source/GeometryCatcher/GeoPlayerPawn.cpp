@@ -44,6 +44,7 @@ AGeoPlayerPawn::AGeoPlayerPawn(const FObjectInitializer& ObjectInitializer)
 void AGeoPlayerPawn::BeginPlay()
 {
     Super::BeginPlay();
+    
 }
 
 // Called every frame

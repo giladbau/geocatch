@@ -28,8 +28,8 @@ public:
     UFUNCTION()
     void OnEnemyHitPlayer(class AGeoEnemyPawn *Enemy);
 
-//    UFUNCTION(BlueprintImplementableEvent, Category = Gameplay)
-//    void IncrementKillPoints();
+    UFUNCTION(BlueprintImplementableEvent, Category = Gameplay)
+    void IncrementKillPoints();
 
 protected:
     class AGeoEnemySpawner *EnemySpawner;
