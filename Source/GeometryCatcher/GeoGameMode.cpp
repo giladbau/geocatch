@@ -22,13 +22,6 @@ AGeoGameMode::AGeoGameMode(const FObjectInitializer& ObjectInitializer)
         PlayerControllerClass = PlayerControllerBP.Class;
     }
 
-    static ConstructorHelpers::FClassFinder<AHUD> PlayerHUDBP(TEXT("AHUD'/Game/Blueprints/BP_HUD.BP_HUD_C'"));
-
-    if (PlayerHUDBP.Succeeded())
-    {
-        HUDClass = PlayerHUDBP.Class;
-    }
-
     static ConstructorHelpers::FClassFinder<AActor> EnemySpawnerBP(TEXT("AActor'/Game/Blueprints/BP_EnemySpawner.BP_EnemySpawner_C'"));
 
     if (EnemySpawnerBP.Succeeded())
