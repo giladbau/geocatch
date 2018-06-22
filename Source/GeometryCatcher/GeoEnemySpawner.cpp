@@ -52,6 +52,8 @@ void AGeoEnemySpawner::SpawnEnemy()
         int32 RandomMaterialIndex = EnemyMaterialRandomStream.RandRange(0, Materials.Num() - 1);
         Enemy->SetEnemyMaterial(Materials[RandomMaterialIndex].Material);
     }
+
+    OnEnemySpawned.Broadcast(Enemy);
 }
 
 // Called every frame

@@ -6,6 +6,8 @@
 #include "GameFramework/Pawn.h"
 #include "GeoEnemyPawn.generated.h"
 
+DECLARE_MULTICAST_DELEGATE_OneParam(FEnemyHitPlayerDelegate, class AGeoEnemyPawn *);
+
 UCLASS()
 class GEOMETRYCATCHER_API AGeoEnemyPawn : public APawn
 {
@@ -34,6 +36,8 @@ public:
 
     UPROPERTY()
     UStaticMeshComponent *VisualComponent;
+
+    FEnemyHitPlayerDelegate OnEnemyHitPlayer;
 
 private:
     class UStaticMesh       *Mesh;

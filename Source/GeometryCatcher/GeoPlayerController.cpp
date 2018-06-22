@@ -12,10 +12,5 @@ AGeoPlayerController::AGeoPlayerController(const FObjectInitializer& ObjectIniti
 void AGeoPlayerController::BeginPlay()
 {
     Super::BeginPlay();
-
-    if (GEngine)
-    {
-        GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Purple, TEXT("I'm the controller!"));
-    }
 }
 

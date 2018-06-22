@@ -1,6 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "GeoEnemyPawn.h"
+#include "GeoPlayerPawn.h"
+#include "GeoGameMode.h"
 #include "Engine.h"
 
 // Sets default values
@@ -22,11 +24,6 @@ AGeoEnemyPawn::AGeoEnemyPawn(const FObjectInitializer& ObjectInitializer)
     // Create the visual component
     VisualComponent = ObjectInitializer.CreateDefaultSubobject<UStaticMeshComponent>(this, TEXT("VisualComponent"));
     VisualComponent->SetupAttachment(RootComponent);
-    //static ConstructorHelpers::FObjectFinder<UStaticMesh> EnemyVisualAsset(TEXT("StaticMesh'/Game/Meshes/SM_Enemy_Cone.SM_Enemy_Cone'"));
-    //if (EnemyVisualAsset.Succeeded())
-    //{
-    //    VisualComponent->SetStaticMesh(EnemyVisualAsset.Object);
-    //}
 
     InitialLifeSpan = 2.0f;
 }
@@ -55,9 +52,13 @@ void AGeoEnemyPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 
 void AGeoEnemyPawn::OnHit(UPrimitiveComponent * HitComponent, AActor * OtherActor, UPrimitiveComponent * OtherComp, FVector NormalImpulse, const FHitResult & Hit)
 {
-    if (OtherActor && OtherActor != this && OtherComp)
+    AGeoPlayerPawn *PlayerPawn = dynamic_cast<AGeoPlayerPawn *>(OtherActor);
+    if (OtherActor && OtherActor != this && OtherComp && PlayerPawn)
     {
         UWorld *World = GetWorld();
+
+        OnEnemyHitPlayer.Broadcast(this);
+
         World->DestroyActor(this);
     }
 }

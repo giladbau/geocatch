@@ -43,6 +43,8 @@ public:
     FMeshWrapper() : StaticMesh(nullptr) {}
 };
 
+DECLARE_MULTICAST_DELEGATE_OneParam(FEnemySpawnedDelegate, class AGeoEnemyPawn *);
+
 UCLASS()
 class GEOMETRYCATCHER_API AGeoEnemySpawner : public AActor
 {
@@ -90,6 +92,8 @@ public:
     // Mesh for spawned enemies are randomly selected from this list
     UPROPERTY(EditDefaultsOnly, Category = Rendering)
     TArray<FMeshWrapper> Meshes;
+
+    FEnemySpawnedDelegate OnEnemySpawned;
 
 private:
     // Determine when to spawn the next enemy

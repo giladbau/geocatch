@@ -44,11 +44,6 @@ AGeoPlayerPawn::AGeoPlayerPawn(const FObjectInitializer& ObjectInitializer)
 void AGeoPlayerPawn::BeginPlay()
 {
     Super::BeginPlay();
-    
-    if (GEngine)
-    {
-        GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Orange, TEXT("I'm the catcher!"));
-    }    
 }
 
 // Called every frame

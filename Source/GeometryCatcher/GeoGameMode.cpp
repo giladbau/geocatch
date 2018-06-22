@@ -1,6 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "GeoGameMode.h"
+#include "GeoEnemyPawn.h"
+#include "GeoEnemySpawner.h"
 #include "Engine.h"
 #include "ConstructorHelpers.h"
 
@@ -26,18 +28,32 @@ AGeoGameMode::AGeoGameMode(const FObjectInitializer& ObjectInitializer)
     {
         HUDClass = PlayerHUDBP.Class;
     }
+
+    static ConstructorHelpers::FClassFinder<AActor> EnemySpawnerBP(TEXT("AActor'/Game/Blueprints/BP_EnemySpawner.BP_EnemySpawner_C'"));
+
+    if (EnemySpawnerBP.Succeeded())
+    {
+        EnemySpawnerClass = EnemySpawnerBP.Class;
+    }
 }
 
 void AGeoGameMode::StartPlay()
 {
     Super::StartPlay();
 
-    if (GEngine)
-    {
-        GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Emerald, TEXT("Gentlemen, start your catching!"));
-    }
-
-    //WidgetBlueprint'/Game/UI/BP_HUD_Widget.BP_HUD_Widget'
+    UWorld *World = GetWorld();
+    FVector EnemySpawnerLocation(0.0f, 960.0f, 1000.0f);
+    EnemySpawner = World->SpawnActor<AGeoEnemySpawner>(EnemySpawnerClass, EnemySpawnerLocation, FRotator::ZeroRotator);
+    EnemySpawner->OnEnemySpawned.AddUObject(this, &AGeoGameMode::OnEnemySpawned);
 }
 
+void AGeoGameMode::OnEnemySpawned(AGeoEnemyPawn *Enemy)
+{
+    Enemy->OnEnemyHitPlayer.AddUObject(this, &AGeoGameMode::OnEnemyHitPlayer);
+}
 
+void AGeoGameMode::OnEnemyHitPlayer(AGeoEnemyPawn *Enemy)
+{
+    HitCount++;
+    //IncrementKillPoints();
+}
