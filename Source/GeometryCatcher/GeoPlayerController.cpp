@@ -2,6 +2,8 @@
 
 #include "GeoPlayerController.h"
 #include "Engine.h"
+#include "ConstructorHelpers.h"
+
 
 AGeoPlayerController::AGeoPlayerController(const FObjectInitializer& ObjectInitializer)
     : Super(ObjectInitializer)

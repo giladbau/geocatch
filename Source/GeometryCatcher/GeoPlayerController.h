@@ -17,4 +17,7 @@ class GEOMETRYCATCHER_API AGeoPlayerController : public APlayerController
     AGeoPlayerController(const FObjectInitializer& ObjectInitializer);
     
     void BeginPlay() override;
+
+public:
+
 };

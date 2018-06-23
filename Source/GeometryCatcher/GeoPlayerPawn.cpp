@@ -1,8 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "GeoPlayerPawn.h"
-#include "Engine.h"
 #include "GeoMovementComponent.h"
+#include "GeoEnemyPawn.h"
+#include "GeoEnemySpawner.h"
+#include "Engine.h"
 #include "ConstructorHelpers.h"
 
 // Sets default values
@@ -44,7 +46,14 @@ AGeoPlayerPawn::AGeoPlayerPawn(const FObjectInitializer& ObjectInitializer)
 void AGeoPlayerPawn::BeginPlay()
 {
     Super::BeginPlay();
-    
+
+    if (EnemySpawnerClass)
+    {
+        UWorld *World = GetWorld();
+        FVector EnemySpawnerLocation(0.0f, 960.0f, 1000.0f);
+        EnemySpawner = World->SpawnActor<AGeoEnemySpawner>(EnemySpawnerClass, EnemySpawnerLocation, FRotator::ZeroRotator);
+        EnemySpawner->OnEnemySpawned.AddDynamic(this, &AGeoPlayerPawn::OnEnemySpawned);
+    }
 }
 
 // Called every frame
@@ -73,4 +82,15 @@ void AGeoPlayerPawn::MouseMoveH(float Delta)
     {
         MovementComponent->AddInputVector(GetActorRightVector() * Delta);
     }
+}
+
+void AGeoPlayerPawn::OnEnemySpawned(AGeoEnemyPawn *Enemy)
+{
+    Enemy->OnEnemyHitPlayer.AddDynamic(this, &AGeoPlayerPawn::OnEnemyHitPlayer);
+}
+
+void AGeoPlayerPawn::OnEnemyHitPlayer(AGeoEnemyPawn *Enemy)
+{
+    HitCount++;
+    IncrementKillPoints();
 }

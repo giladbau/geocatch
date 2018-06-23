@@ -43,7 +43,7 @@ public:
     FMeshWrapper() : StaticMesh(nullptr) {}
 };
 
-DECLARE_MULTICAST_DELEGATE_OneParam(FEnemySpawnedDelegate, class AGeoEnemyPawn *);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FEnemySpawnedDelegate, class AGeoEnemyPawn*, Enemy);
 
 UCLASS()
 class GEOMETRYCATCHER_API AGeoEnemySpawner : public AActor
@@ -95,6 +95,9 @@ public:
 
     FEnemySpawnedDelegate OnEnemySpawned;
 
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+    TSubclassOf<class AGeoEnemyPawn> EnemyClass;
+
 private:
     // Determine when to spawn the next enemy
     float TimeToSpawn = 0.0f;
@@ -108,6 +111,5 @@ private:
     // Randomly choose the material of the next enemy
     FRandomStream EnemyMaterialRandomStream;
 
-    TSubclassOf<class AGeoEnemyPawn> EnemyClass;
 
 };

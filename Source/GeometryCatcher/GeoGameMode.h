@@ -19,20 +19,4 @@ class GEOMETRYCATCHER_API AGeoGameMode : public AGameModeBase
 
 public:
 
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Gameplay)
-    int32 HitCount = 0;
-
-    UFUNCTION()
-    void OnEnemySpawned(class AGeoEnemyPawn *Enemy);
-
-    UFUNCTION()
-    void OnEnemyHitPlayer(class AGeoEnemyPawn *Enemy);
-
-    UFUNCTION(BlueprintImplementableEvent, Category = Gameplay)
-    void IncrementKillPoints();
-
-protected:
-    class AGeoEnemySpawner *EnemySpawner;
-
-    TSubclassOf<class AGeoEnemySpawner> EnemySpawnerClass;
 };

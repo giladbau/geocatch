@@ -15,12 +15,6 @@ AGeoEnemySpawner::AGeoEnemySpawner(const FObjectInitializer& ObjectInitializer)
     EnemyLocationRandomStream.GenerateNewSeed();
     EnemyMeshRandomStream.GenerateNewSeed();
     EnemyMaterialRandomStream.GenerateNewSeed();
-
-    static ConstructorHelpers::FObjectFinder<UBlueprint> EnemyBlueprint(TEXT("Blueprint'/Game/Blueprints/BP_Enemy.BP_Enemy'"));
-    if (EnemyBlueprint.Succeeded())
-    {
-        EnemyClass = (UClass*)EnemyBlueprint.Object->GeneratedClass;
-    }
 }
 
 // Called when the game starts or when spawned
@@ -33,27 +27,30 @@ void AGeoEnemySpawner::BeginPlay()
 
 void AGeoEnemySpawner::SpawnEnemy()
 {
-    UWorld *World = GetWorld();
-    
-    // Choose a random location to spawn within the horizontal extent
-    const float SpawnLocationY = EnemyLocationRandomStream.FRandRange(GetActorLocation().Y - SpawnerExtent, GetActorLocation().Y + SpawnerExtent);
-    const FVector SpawnLocation(0.0f, SpawnLocationY, GetActorLocation().Z);
-    
-    AGeoEnemyPawn* const Enemy = World->SpawnActor<AGeoEnemyPawn>(EnemyClass, SpawnLocation, FRotator::ZeroRotator);
-    
-    if (Meshes.Num() > 0)
+    if (EnemyClass)
     {
-        int32 RandomMeshIndex = EnemyMeshRandomStream.RandRange(0, Meshes.Num() - 1);
-        Enemy->SetEnemyMesh(Meshes[RandomMeshIndex].StaticMesh);
-    }
-    
-    if (Materials.Num() > 0)
-    {
-        int32 RandomMaterialIndex = EnemyMaterialRandomStream.RandRange(0, Materials.Num() - 1);
-        Enemy->SetEnemyMaterial(Materials[RandomMaterialIndex].Material);
-    }
+        UWorld *World = GetWorld();
 
-    OnEnemySpawned.Broadcast(Enemy);
+        // Choose a random location to spawn within the horizontal extent
+        const float SpawnLocationY = EnemyLocationRandomStream.FRandRange(GetActorLocation().Y - SpawnerExtent, GetActorLocation().Y + SpawnerExtent);
+        const FVector SpawnLocation(0.0f, SpawnLocationY, GetActorLocation().Z);
+
+        AGeoEnemyPawn* const Enemy = World->SpawnActor<AGeoEnemyPawn>(EnemyClass, SpawnLocation, FRotator::ZeroRotator);
+
+        if (Meshes.Num() > 0)
+        {
+            int32 RandomMeshIndex = EnemyMeshRandomStream.RandRange(0, Meshes.Num() - 1);
+            Enemy->SetEnemyMesh(Meshes[RandomMeshIndex].StaticMesh);
+        }
+
+        if (Materials.Num() > 0)
+        {
+            int32 RandomMaterialIndex = EnemyMaterialRandomStream.RandRange(0, Materials.Num() - 1);
+            Enemy->SetEnemyMaterial(Materials[RandomMaterialIndex].Material);
+        }
+    
+        OnEnemySpawned.Broadcast(Enemy);
+    }
 }
 
 // Called every frame

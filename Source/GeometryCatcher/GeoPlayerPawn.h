@@ -39,10 +39,26 @@ public:
     UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = Camera)
     float CameraHeight = 1080.0f;
 
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Gameplay)
+    int32 HitCount = 0;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+    TSubclassOf<class AGeoEnemySpawner> EnemySpawnerClass;
+
+    UFUNCTION()
+    void OnEnemySpawned(class AGeoEnemyPawn *Enemy);
+
+    UFUNCTION()
+    void OnEnemyHitPlayer(class AGeoEnemyPawn *Enemy);
+
+    UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = Gameplay)
+    void IncrementKillPoints();
+
 protected:
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess = true), Category = Movement)
     class UGeoMovementComponent *MovementComponent;
 
     class UCameraComponent *CameraComponent;
 
+    class AGeoEnemySpawner *EnemySpawner;
 };
